@@ -50,6 +50,10 @@ export const Signature = forwardRef<SignatureRef, Omit<SignatureProps, 'defaultP
     const handlePointerUp = useEvent(() => {
       let result = pointsRef.current || [];
       onPointer && props.onPointer!(result);
+      // Remove the temporary path element from DOM
+      if ($path.current && $svg.current && $svg.current.contains($path.current)) {
+        $svg.current.removeChild($path.current);
+      }
       $path.current = undefined;
       pointsRef.current = undefined;
       document.removeEventListener('pointermove', handlePointerMove);
